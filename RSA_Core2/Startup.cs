@@ -59,25 +59,25 @@ namespace RSA_Core2
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o => new JwtBearerOptions
+            }).AddJwtBearer(o =>
             {
-                
-               // IncludeErrorDetails = true,
-               // RequireHttpsMetadata = false,
-                TokenValidationParameters = jwtHandler.Parameters,
-                //Events = new JwtBearerEvents()
-                //{
-                //    OnAuthenticationFailed = c =>
-                //    {
-                //        c.NoResult();
 
-                //        c.Response.StatusCode = 401;
-                //        c.Response.ContentType = "text/plain";
+                o.IncludeErrorDetails = true;
+                o.RequireHttpsMetadata = false;
+                o.TokenValidationParameters = jwtHandler.Parameters;
+                o.Events = new JwtBearerEvents()
+                {
+                    OnAuthenticationFailed = c =>
+                    {
+                        c.NoResult();
 
-                //        return c.Response.WriteAsync(c.Exception.ToString());
-                //    }
+                        c.Response.StatusCode = 401;
+                        c.Response.ContentType = "text/plain";
 
-                //}
+                        return c.Response.WriteAsync(c.Exception.ToString());
+                    }
+
+                };
             });
 
             services.AddMvc();
