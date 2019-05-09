@@ -8,7 +8,9 @@ using RSA_Core2.Models;
 using RSA_Core2.Services;
 
 namespace RSA_Core2.Controllers
-{[ApiController]
+{
+    [Route("api/[controller]")]
+
     public class AccountController : Controller
     {
         private readonly IJwtHandler _jwtHandler;
@@ -26,6 +28,7 @@ namespace RSA_Core2.Controllers
         }
 
         [HttpPost("sign-in")]
+        [AllowAnonymous]
         public IActionResult SignIn([FromBody]SignIn request)
         {
             if (string.IsNullOrWhiteSpace(request.Username) || request.Password != "secret")
